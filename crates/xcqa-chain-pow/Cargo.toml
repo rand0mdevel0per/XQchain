@@ -1,0 +1,18 @@
+[package]
+name = "xcqa-chain-pow"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+xcqa-crypto = { path = "../xcqa-crypto" }
+xcqa-chain-core = { path = "../xcqa-chain-core" }
+rand = { workspace = true }
+rkyv = { workspace = true }
+thiserror = { workspace = true }
+
+[features]
+default = []
+gpu = ["cudarc"]
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+cudarc = { version = "0.12", features = ["cuda-12050"], optional = true }

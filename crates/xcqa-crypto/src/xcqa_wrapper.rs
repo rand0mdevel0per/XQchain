@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 
 #[derive(Clone)]
 pub struct XcqaPublicKeyWrapped {
@@ -12,7 +13,7 @@ pub struct XcqaPrivateKeyWrapped {
     pub(crate) inner: xcqa::PrivateKey,
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Archive, RkyvSerialize, RkyvDeserialize)]
 pub struct XcqaSignature {
     pub commitment: Vec<u8>,
     pub response: Vec<u8>,
