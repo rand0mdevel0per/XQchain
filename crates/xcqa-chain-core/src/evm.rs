@@ -1,5 +1,5 @@
 use revm::{Database, Evm, InMemoryDB};
-use revm_primitives::{Address, U256, TxEnv, ExecutionResult, Output};
+use revm::primitives::{Address, U256, TxEnv, ExecutionResult, Output, TxKind};
 use crate::error::{CoreError, Result};
 
 pub struct EvmState {
@@ -17,7 +17,7 @@ impl EvmState {
             .modify_tx_env(|tx| {
                 tx.caller = deployer;
                 tx.data = bytecode.into();
-                tx.transact_to = revm_primitives::TxKind::Create;
+                tx.transact_to = TxKind::Create;
             })
             .build();
 
@@ -41,7 +41,7 @@ impl EvmState {
             .with_db(&mut self.db)
             .modify_tx_env(|tx| {
                 tx.caller = caller;
-                tx.transact_to = revm_primitives::TxKind::Call(contract);
+                tx.transact_to = TxKind::Call(contract);
                 tx.data = data.into();
             })
             .build();

@@ -33,7 +33,6 @@ thiserror = "1"
 
 # EVM
 revm = { version = "14", default-features = false, features = ["std"] }
-revm-primitives = "9"
 
 [profile.release]
 opt-level = 3

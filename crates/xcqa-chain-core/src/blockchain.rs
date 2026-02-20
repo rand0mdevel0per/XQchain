@@ -75,7 +75,7 @@ impl Blockchain {
                       - recent_blocks.first().unwrap().header.timestamp;
         let avg_time = time_diff / (window_size as u64 - 1).max(1);
 
-        let current = self.latest_block().header;
+        let current = &self.latest_block().header;
         let (mut tier, mut fine) = (current.difficulty_tier, current.fine_difficulty);
 
         if avg_time < TARGET_BLOCK_TIME * 8 / 10 {

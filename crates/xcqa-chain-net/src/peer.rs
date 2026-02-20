@@ -24,6 +24,10 @@ pub struct PeerConnection {
 }
 
 impl PeerConnection {
+    pub fn from_stream(stream: TcpStream) -> Self {
+        Self { stream }
+    }
+
     pub async fn send(&mut self, msg: &Message) -> Result<()> {
         use tokio::io::AsyncWriteExt;
         let bytes = msg.encode();
