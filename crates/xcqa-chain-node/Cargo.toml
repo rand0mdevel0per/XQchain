@@ -1,0 +1,16 @@
+[package]
+name = "xcqa-chain-node"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "xcqa-node"
+path = "src/main.rs"
+
+[dependencies]
+xcqa-crypto = { path = "../xcqa-crypto" }
+xcqa-chain-core = { path = "../xcqa-chain-core" }
+xcqa-chain-pow = { path = "../xcqa-chain-pow" }
+xcqa-chain-net = { path = "../xcqa-chain-net" }
+tokio = { version = "1", features = ["full"] }
+clap = { version = "4", features = ["derive"] }
