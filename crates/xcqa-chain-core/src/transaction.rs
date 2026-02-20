@@ -1,11 +1,12 @@
 use serde::{Serialize, Deserialize};
+use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 use xcqa_crypto::{
     MlDsa65Signature, LatticeCommitment, LatticeRangeProof,
     mldsa_verify, CommitmentMatrix,
 };
 use crate::error::{CoreError, Result};
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Archive, RkyvSerialize, RkyvDeserialize)]
 pub struct Transaction {
     pub sender: [u8; 32],
     pub recipient: [u8; 32],

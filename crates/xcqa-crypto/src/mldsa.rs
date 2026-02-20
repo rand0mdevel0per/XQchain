@@ -3,15 +3,16 @@ use ml_dsa::signature::{Signer, Verifier};
 use rand::{Rng, CryptoRng, RngExt};
 use zeroize::Zeroize;
 use serde::{Serialize, Deserialize};
+use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Archive, RkyvSerialize, RkyvDeserialize)]
 pub struct MlDsa65PublicKey(#[serde(with = "serde_big_array::BigArray")] pub [u8; 1952]);
 
 #[derive(Clone, Zeroize)]
 #[zeroize(drop)]
 pub struct MlDsa65PrivateKey([u8; 32]);
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Archive, RkyvSerialize, RkyvDeserialize)]
 pub struct MlDsa65Signature(#[serde(with = "serde_big_array::BigArray")] pub [u8; 3309]);
 
 pub fn mldsa_keygen<R: Rng + CryptoRng>(rng: &mut R) -> (MlDsa65PublicKey, MlDsa65PrivateKey) {

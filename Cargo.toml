@@ -4,6 +4,7 @@ members = [
     "crates/xcqa-crypto",
     "crates/xcqa-chain-core",
     "crates/xcqa-chain-pow",
+    "crates/xcqa-chain-net",
 ]
 
 [workspace.dependencies]

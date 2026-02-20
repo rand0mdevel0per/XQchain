@@ -1,9 +1,10 @@
 use serde::{Serialize, Deserialize};
+use rkyv::{Archive, Deserialize as RkyvDeserialize, Serialize as RkyvSerialize};
 use xcqa_crypto::{XcqaSignature, XcqaPublicKeyWrapped, xcqa_verify, CommitmentMatrix};
 use crate::transaction::Transaction;
 use crate::error::{CoreError, Result};
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Archive, RkyvSerialize, RkyvDeserialize)]
 pub struct BlockHeader {
     pub height: u64,
     #[serde(with = "serde_big_array::BigArray")]
@@ -13,7 +14,7 @@ pub struct BlockHeader {
     pub fine_difficulty: u8,
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize, Archive, RkyvSerialize, RkyvDeserialize)]
 pub struct Block {
     pub header: BlockHeader,
     pub transactions: Vec<Transaction>,
