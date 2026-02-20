@@ -8,6 +8,9 @@ pub enum CoreError {
     #[error("Invalid block: {0}")]
     InvalidBlock(String),
 
+    #[error("EVM error: {0}")]
+    EvmError(String),
+
     #[error("Cryptographic error: {0}")]
     CryptoError(#[from] xcqa_crypto::CryptoError),
 }

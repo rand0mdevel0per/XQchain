@@ -9,3 +9,5 @@ serde = { workspace = true }
 serde-big-array = "0.5"
 rkyv = { workspace = true }
 thiserror = { workspace = true }
+revm = { workspace = true }
+revm-primitives = { workspace = true }

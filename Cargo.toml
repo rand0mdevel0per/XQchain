@@ -31,6 +31,10 @@ zstd = "0.13"
 # Error handling
 thiserror = "1"
 
+# EVM
+revm = { version = "14", default-features = false, features = ["std"] }
+revm-primitives = "9"
+
 [profile.release]
 opt-level = 3
 lto = true
