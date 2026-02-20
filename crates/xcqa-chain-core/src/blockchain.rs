@@ -39,6 +39,14 @@ impl Blockchain {
         if block.header.height != self.height + 1 {
             return Err(CoreError::InvalidBlock("Invalid height".into()));
         }
+
+        for tx in &block.transactions {
+            let sender_balance = self.balances.get(&tx.sender).copied().unwrap_or(0);
+            if sender_balance == 0 {
+                return Err(CoreError::InvalidTransaction("Insufficient balance".into()));
+            }
+        }
+
         self.height += 1;
         self.blocks.push(block);
         Ok(())
