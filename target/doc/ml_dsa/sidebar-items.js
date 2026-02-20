@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Error","KeyPair","MlDsa44","MlDsa65","MlDsa87","Signature","SigningKey","VerifyingKey"],"trait":["KeyGen","MlDsaParams"],"type":["B32","EncodedSignature","EncodedVerifyingKey","ExpandedSigningKey","Seed"]};

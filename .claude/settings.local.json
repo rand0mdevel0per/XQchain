@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__MCP_DOCKER__list_directory",
+      "WebFetch(domain:docs.rs)"
+    ]
+  }
+}

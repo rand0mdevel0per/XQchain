@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/xcqa-crypto",
+]
+
+[workspace.dependencies]
+# Cryptography
+blake3 = "1"
+sha2 = "0.10"
+hkdf = "0.12"
+rand = "0.10"
+rand_core = "0.10"
+zeroize = { version = "1", features = ["derive"] }
+subtle = "2"
+ml-dsa = "0.1.0-rc.7"
+xcqa = { path = "../XCquickAlgo" }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+bincode = "2"
+rkyv = { version = "0.8", features = ["alloc"] }
+
+# Compression
+zstd = "0.13"
+
+# Error handling
+thiserror = "1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
