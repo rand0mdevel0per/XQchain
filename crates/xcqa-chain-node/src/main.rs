@@ -63,13 +63,14 @@ async fn mine_loop<S: Solver>(blockchain: &mut Blockchain, solver: S) {
     loop {
         let latest = blockchain.latest_block();
         let block_hash = latest.hash();
+        let (difficulty_tier, fine_difficulty) = blockchain.calculate_next_difficulty();
 
         let header = BlockHeader {
             height: blockchain.height() + 1,
             prev_hash: block_hash,
             timestamp: SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs(),
-            difficulty_tier: 0,
-            fine_difficulty: 1,
+            difficulty_tier,
+            fine_difficulty,
         };
 
         println!("Mining block {}...", header.height);

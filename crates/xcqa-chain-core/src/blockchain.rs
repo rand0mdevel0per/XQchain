@@ -51,4 +51,33 @@ impl Blockchain {
     pub fn height(&self) -> u64 {
         self.height
     }
+
+    pub fn calculate_next_difficulty(&self) -> (u8, u8) {
+        const TARGET_BLOCK_TIME: u64 = 10;
+        const ADJUSTMENT_WINDOW: usize = 10;
+
+        if self.height < 2 {
+            return (0, 1);
+        }
+
+        let window_size = ADJUSTMENT_WINDOW.min(self.height as usize);
+        let recent_blocks = &self.blocks[self.blocks.len() - window_size..];
+
+        let time_diff = recent_blocks.last().unwrap().header.timestamp
+                      - recent_blocks.first().unwrap().header.timestamp;
+        let avg_time = time_diff / (window_size as u64 - 1).max(1);
+
+        let current = self.latest_block().header;
+        let (mut tier, mut fine) = (current.difficulty_tier, current.fine_difficulty);
+
+        if avg_time < TARGET_BLOCK_TIME * 8 / 10 {
+            fine = (fine + 1).min(8);
+            if fine == 8 { tier += 1; fine = 1; }
+        } else if avg_time > TARGET_BLOCK_TIME * 12 / 10 {
+            if fine > 1 { fine -= 1; }
+            else if tier > 0 { tier -= 1; fine = 8; }
+        }
+
+        (tier, fine)
+    }
 }
