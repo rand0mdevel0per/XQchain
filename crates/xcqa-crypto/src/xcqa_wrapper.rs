@@ -1,3 +1,5 @@
+use serde::{Serialize, Deserialize};
+
 #[derive(Clone)]
 pub struct XcqaPublicKeyWrapped {
     pub layers: usize,
@@ -10,9 +12,10 @@ pub struct XcqaPrivateKeyWrapped {
     pub(crate) inner: xcqa::PrivateKey,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct XcqaSignature {
-    pub(crate) inner: xcqa::Signature,
+    pub commitment: Vec<u8>,
+    pub response: Vec<u8>,
 }
 
 pub fn xcqa_keygen_privacy<R>(
@@ -36,7 +39,10 @@ pub fn xcqa_sign(
     block_hash: &[u8; 64],
 ) -> XcqaSignature {
     let sig = xcqa::sign_with_context(msg, &sk.inner, &pk.inner, block_hash);
-    XcqaSignature { inner: sig }
+    XcqaSignature {
+        commitment: sig.commitment.clone(),
+        response: sig.response.clone(),
+    }
 }
 
 pub fn xcqa_verify(
@@ -45,7 +51,11 @@ pub fn xcqa_verify(
     pk: &XcqaPublicKeyWrapped,
     block_hash: &[u8; 64],
 ) -> bool {
-    xcqa::verify_with_context(msg, &sig.inner, &pk.inner, block_hash)
+    let xcqa_sig = xcqa::Signature {
+        commitment: sig.commitment.clone(),
+        response: sig.response.clone(),
+    };
+    xcqa::verify_with_context(msg, &xcqa_sig, &pk.inner, block_hash)
 }
 
 #[cfg(test)]

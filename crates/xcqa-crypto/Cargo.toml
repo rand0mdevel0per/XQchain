@@ -14,6 +14,7 @@ subtle = { workspace = true }
 ml-dsa = { workspace = true }
 xcqa = { workspace = true }
 serde = { workspace = true }
+serde-big-array = "0.5"
 bincode = { workspace = true }
 rkyv = { workspace = true }
 zstd = { workspace = true }

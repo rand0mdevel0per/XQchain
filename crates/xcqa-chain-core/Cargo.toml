@@ -1,0 +1,11 @@
+[package]
+name = "xcqa-chain-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+xcqa-crypto = { path = "../xcqa-crypto" }
+serde = { workspace = true }
+serde-big-array = "0.5"
+rkyv = { workspace = true }
+thiserror = { workspace = true }
