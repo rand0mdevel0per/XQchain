@@ -1,11 +1,10 @@
-use crate::{Block, BlockHeader, Transaction};
+use crate::{Block, BlockHeader, Transaction, EvmState};
 use crate::error::{CoreError, Result};
-use std::collections::HashMap;
 
 pub struct Blockchain {
     blocks: Vec<Block>,
     height: u64,
-    balances: HashMap<[u8; 32], u64>,
+    evm_state: EvmState,
 }
 
 impl Blockchain {
@@ -13,7 +12,7 @@ impl Blockchain {
         Self {
             blocks: vec![genesis],
             height: 0,
-            balances: HashMap::new(),
+            evm_state: EvmState::new(),
         }
     }
 
@@ -39,14 +38,6 @@ impl Blockchain {
         if block.header.height != self.height + 1 {
             return Err(CoreError::InvalidBlock("Invalid height".into()));
         }
-
-        for tx in &block.transactions {
-            let sender_balance = self.balances.get(&tx.sender).copied().unwrap_or(0);
-            if sender_balance == 0 {
-                return Err(CoreError::InvalidTransaction("Insufficient balance".into()));
-            }
-        }
-
         self.height += 1;
         self.blocks.push(block);
         Ok(())
@@ -87,5 +78,9 @@ impl Blockchain {
         }
 
         (tier, fine)
+    }
+
+    pub fn evm_state(&mut self) -> &mut EvmState {
+        &mut self.evm_state
     }
 }
